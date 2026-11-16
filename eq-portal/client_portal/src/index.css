@@ -1,0 +1,109 @@
+html {
+  /* PARA EL NAVEGAR SUAVE A LAS SECCIONES */
+  scroll-behavior: smooth;
+}
+
+/* Para navegadores basados en WebKit (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Color del fondo de la barra (gris muy claro) */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary); /* Color de la barra (tu verde institucional) */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark); /* Verde más oscuro al pasar el ratón */
+}
+
+/* RESET BÁSICO PARA QUE TODOS LOS NAVEGADORES SE VEAN IGUAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* EL PADDING NO AUMENTA EL TAMAÑO DE LAS CAJAS */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) #f1f5f9;
+}
+
+/* VARIABLES GLOBALES */
+:root {
+  --color-primary: #0b6b4b;
+  --color-dark: #073b2b;
+  --color-light: #dcefa9;
+  --color-text: #10231e;
+  --color-bg: #f4f5f1;
+  --font-headings: Georgia, "Times New Roman", serif;
+  --font-body: Arial, Helvetica, sans-serif;
+}
+
+/* ESTILOS BASE PARA EL CUERPO */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+
+  /* PARA QUE NO HAYA SCROLL HORIZONTAL */
+  overflow-x: hidden;
+}
+
+/* ESTILO BASE PARA EL LOGO */
+.logo-img {
+  border-radius: 50%; /* Lo hace circular */
+  padding: 2px; /* Un pequeño margen interno */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+}
+
+/* ESTILOS PARA ENLACES Y BOTONES */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+/* ESTILOS PARA EL INPUT DE CONTRASEÑA CON BOTÓN */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.password-wrapper .form-control {
+  padding-right: 40px; /* Espacio para que el texto no quede debajo del ojo */
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  transform: translateY(-50%); /* Lo centra verticalmente */
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-top: 10px; /* Ajuste para que no choque con el label si lo tiene arriba */
+}
+
+.password-toggle-btn:hover {
+  color: var(--color-primary);
+}
+
+.input-error {
+  border-color: #dc2626 !important;
+}
