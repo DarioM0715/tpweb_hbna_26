@@ -186,5 +186,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# Node.js
+node_modules/
 # --- Entorno virtual específico del proyecto Portal Web 401 ---
 enviroment_portal/

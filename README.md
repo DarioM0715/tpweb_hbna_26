@@ -17,25 +17,25 @@
 
 ## Tasks Names
 
-**Sigla** **Categoría**         **Ejemplos de tareas**
+**Sigla** **Categoría** **Ejemplos de tareas**
 
-`FT:`    New Feature         Implementar nueva funcionalidad, agregar endpoints, crear vistas
+`FT:` New Feature Implementar nueva funcionalidad, agregar endpoints, crear vistas
 
-`MGR:`    Migration            Migrar módulo, adaptar código a nueva versión de Odoo
+`MGR:` Migration Migrar módulo, adaptar código a nueva versión de Odoo
 
-`HF:`     Hot-Fix              Resolver bug crítico, corregir no conformidad en producción
+`HF:` Hot-Fix Resolver bug crítico, corregir no conformidad en producción
 
-`ANL:`    Analysis             Levantamiento de requerimientos, análisis funcional/técnico, diagramas
+`ANL:` Analysis Levantamiento de requerimientos, análisis funcional/técnico, diagramas
 
-`TST:`    Testing              Pruebas unitarias, funcionales, integración, UAT con usuarios
+`TST:` Testing Pruebas unitarias, funcionales, integración, UAT con usuarios
 
-`DOC:`    Documentation        Manuales de usuario, guías de instalación, diagramas de arquitectura
+`DOC:` Documentation Manuales de usuario, guías de instalación, diagramas de arquitectura
 
-`RVC`     Review & Compliance  Auditoría de entregables, revisión de estándares, validación normativa
+`RVC` Review & Compliance Auditoría de entregables, revisión de estándares, validación normativa
 
-`PMT:`    Project Management   Task Planificación, seguimiento de sprint, coordinación con stakeholders
+`PMT:` Project Management Task Planificación, seguimiento de sprint, coordinación con stakeholders
 
-`SUP:`    Support              Soporte funcional/técnico, consultas de usuarios, incidencias menores
+`SUP:` Support Soporte funcional/técnico, consultas de usuarios, incidencias menores
 
 ## Details about GIT CI/CD & Ops
 
