@@ -14,16 +14,176 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id                          Int         @id @default(autoincrement())
+enum Role {
+  user
+  manager
+}
 
-  email                       String      @unique
+enum LocationRequestStatus {
+  pending
+  accepted
+  cancelled
+}
+
+model User {
+  id                          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
   name                        String
+  email                       String      @unique
   lapel                       String      @unique
-  ist_resident                Boolean     @default(false)
+  role                        Role        @default(user)
+  is_resident                Boolean     @default(false)
   suspended                   Boolean     @default(false)
   reason_suspension           String?
   created_at                  DateTime    @default(now())
 
+  events                      Event[]
+  comments                    Comment[]
+  reactions                   Reaction[]
+  complaints                  Complaint[]
+  location_requests_applicant LocationRequest[] @relation("UserApplicantRequests")
+  location_requests_manager   LocationRequest[] @relation("UserManagerRequests")
+
   @@map("users")
+}
+
+model Category {
+  id                          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  name                        String       @unique
+  description                 String?
+  
+  events                      Event[]
+  locations                   Location[]
+  locations_requests          LocationRequest[]
+
+  @@map("categories")
+}
+
+model Event {
+  id                          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mapId                       String         @map("map_id")
+  categoryId                  String         @map("category_id")
+  organizerId                 String         @map("organizer_id")
+
+  name                        String
+  description                 String?
+  start_date                  DateTime
+  end_date                    DateTime
+  its_official                Boolean
+  outstanding                 Boolean
+
+  user                        User          @relation(fields: [organizerId], references: [id])
+  category                    Category      @relation(fields: [categoryId], references: [id])
+  map                         Map           @relation(fields: [mapId], references: [id])
+
+  comments                    Comment[]
+  reactions                   Reaction[]
+  complaints                  Complaint[]
+
+  @@map("events")
+}
+
+model Location {
+  id                          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mapId                       String      @map("map_id")
+  categoryId                  String      @map("category_id")
+
+  name                        String
+  description                 String
+  latitude                    Float
+  longitude                   Float
+  its_official                Boolean
+  created_at                  DateTime    @default(now())
+
+  map                         Map         @relation(fields: [mapId], references: [id])
+  category                    Category    @relation(fields: [categoryId], references: [id])
+
+  locations_request           LocationRequest[]
+
+  @@map("locations")
+}
+
+model Map {
+  id                          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  name                        String
+  lat_min                     Float
+  lat_max                     Float
+  lon_min                     Float
+  lon_max                     Float
+
+  locations                   Location[]
+  events                      Event[]
+
+  @@map("maps")
+}
+
+model LocationRequest {
+  id                          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  applicantId                 String      @map("applicant_id")
+  categoryId                  String      @map("category_id")
+  managerId                   String?     @map("manager_id")  
+  locationId                  String?     @map("location_id")
+
+  name                        String
+  description                 String?
+  reason                      String
+  status                      LocationRequestStatus @default(pending)
+  latitude                    Float
+  longitude                   Float
+  created_at                  DateTime    @default(now())
+  done_at                     DateTime?
+
+  category                    Category    @relation(fields: [categoryId], references: [id])
+  location                    Location?   @relation(fields: [locationId], references: [id])
+  applicant                   User        @relation("UserApplicantRequests", fields: [applicantId], references: [id])
+  manager                     User?       @relation("UserManagerRequests", fields: [managerId], references: [id])
+
+
+  @@map("locations_requests")
+}
+
+model Comment {
+  id                          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventId                     String         @map("event_id")
+  userId                      String         @map("user_id")
+
+  text                        String
+  created_at                  DateTime    @default(now())
+  edited_at                   DateTime    @default(now())
+
+  user                        User        @relation(fields: [userId], references: [id])  
+  event                       Event       @relation(fields: [eventId], references: [id])
+
+  @@map("comments")
+}
+
+model Reaction {
+  id                          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventId                     String         @map("event_id")
+  userId                      String         @map("user_id")
+
+  validated                   Boolean        @default(false)
+  created_at                  DateTime       @default(now())
+
+  user                        User           @relation(fields: [userId], references: [id])  
+  event                       Event          @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+  @@map("reactions")
+}
+
+model Complaint {
+  id                          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventId                     String      @map("event_id")
+  userId                      String      @map("user_id")
+
+  reason                      String
+  created_at                  DateTime    @default(now())
+
+  user                        User        @relation(fields: [userId], references: [id])  
+  event                       Event       @relation(fields: [eventId], references: [id])
+
+  @@map("complaints")
 }
