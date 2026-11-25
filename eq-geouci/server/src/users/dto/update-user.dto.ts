@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Role } from '../../generated/prisma/enums.js';
 
 export class UpdateUserDto {
   @ApiProperty({ required: false })
@@ -20,10 +21,15 @@ export class UpdateUserDto {
   @IsNotEmpty()
   lapel?: string;
 
+  @ApiProperty({ enum: Role, required: false })
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsBoolean()
-  ist_resident?: boolean;
+  is_resident?: boolean;
 
   @ApiProperty({ required: false })
   @IsOptional()

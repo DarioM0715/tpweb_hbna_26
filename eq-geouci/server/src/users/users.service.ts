@@ -15,23 +15,23 @@ export class UsersService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    const user = this.prisma.user.findUnique({ where: { id } });
+  async findOne(id: string) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
 
-     if (!user) {
+    if (!user) {
       throw new NotFoundException(`Usuario con id ${id} no encontrado`);
     }
 
     return user;
   }
 
-  async update(id: number, data: UpdateUserDto) {
+  async update(id: string, data: UpdateUserDto) {
     await this.findOne(id);
-    
+
     return this.prisma.user.update({ where: { id }, data });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.findOne(id);
 
     await this.prisma.user.delete({ where: { id } });

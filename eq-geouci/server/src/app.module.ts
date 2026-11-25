@@ -3,6 +3,14 @@ import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { UsersModule } from './users/users.module.js';
+import { ReactionsModule } from './reactions/reactions.module.js';
+import { MapsModule } from './maps/maps.module.js';
+import { LocationsRequestModule } from './locations-request/locations-request.module.js';
+import { LocationsModule } from './locations/locations.module.js';
+import { EventsModule } from './events/events.module.js';
+import { ComplaintsModule } from './complaints/complaints.module.js';
+import { CommentsModule } from './comments/comments.module.js';
+import { CategoriesModule } from './categories/categories.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -17,6 +25,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'server',
     }),
     UsersModule,
+    ReactionsModule,
+    MapsModule,
+    LocationsRequestModule,
+    LocationsModule,
+    EventsModule,
+    ComplaintsModule,
+    CommentsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
