@@ -1,0 +1,21 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '../prisma/prisma.service.js';
+import { MapsController } from './maps.controller.js';
+import { MapsService } from './maps.service.js';
+
+describe('MapsController', () => {
+  let controller: MapsController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [MapsController],
+      providers: [MapsService, { provide: PrismaService, useValue: {} }],
+    }).compile();
+
+    controller = module.get<MapsController>(MapsController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});
