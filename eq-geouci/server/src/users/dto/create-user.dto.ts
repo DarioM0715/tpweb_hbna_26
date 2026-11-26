@@ -1,40 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
 import { Role } from '../../generated/prisma/enums.js';
 
-export class CreateUserDto {
-  @ApiProperty({ description: 'The name of the user' })
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+export const createUserSchema = z.object({
+  name: z.string().trim().min(1).describe('The name of the user'),
+  email: z.string().trim().min(1).describe('The email of the user'),
+  lapel: z.string().trim().min(1).describe('The lapel of the user'),
+  role: z.enum(Role).optional().default(Role.user),
+  is_resident: z.boolean().optional().default(false),
+  suspended: z.boolean().optional().default(false),
+  reason_suspension: z.string().optional(),
+});
 
-  @ApiProperty({ description: 'The email of the user' })
-  @IsString()
-  @IsNotEmpty()
-  email: string;
-
-  @ApiProperty({ description: 'The lapel of the user' })
-  @IsString()
-  @IsNotEmpty()
-  lapel: string;
-
-  @ApiProperty({ enum: Role, required: false, default: Role.user })
-  @IsOptional()
-  @IsEnum(Role)
-  role?: Role;
-
-  @ApiProperty({ required: false, default: false })
-  @IsOptional()
-  @IsBoolean()
-  is_resident?: boolean;
-
-  @ApiProperty({ required: false, default: false })
-  @IsOptional()
-  @IsBoolean()
-  suspended?: boolean;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  reason_suspension?: string;
-}
+export type CreateUserDto = z.infer<typeof createUserSchema>;

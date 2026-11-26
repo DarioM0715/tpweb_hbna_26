@@ -1,22 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
+import { createCommentSchema } from './create-comment.dto.js';
 
-export class UpdateCommentDto {
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  eventId?: string;
+export const updateCommentSchema = createCommentSchema.partial();
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  userId?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  text?: string;
-}
+export type UpdateCommentDto = z.infer<typeof updateCommentSchema>;

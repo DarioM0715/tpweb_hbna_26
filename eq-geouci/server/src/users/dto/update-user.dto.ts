@@ -1,43 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Role } from '../../generated/prisma/enums.js';
+import { z } from 'zod';
+import { createUserSchema } from './create-user.dto.js';
 
-export class UpdateUserDto {
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  name?: string;
+export const updateUserSchema = createUserSchema.partial();
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  email?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  lapel?: string;
-
-  @ApiProperty({ enum: Role, required: false })
-  @IsOptional()
-  @IsEnum(Role)
-  role?: Role;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsBoolean()
-  is_resident?: boolean;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsBoolean()
-  suspended?: boolean;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  reason_suspension?: string;
-}
+export type UpdateUserDto = z.infer<typeof updateUserSchema>;

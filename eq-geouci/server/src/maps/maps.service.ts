@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { CreateMapDto } from './dto/create-map.dto.js';
-import { UpdateMapDto } from './dto/update-map.dto.js';
+import type { CreateMapDto } from './dto/create-map.dto.js';
+import type { UpdateMapDto } from './dto/update-map.dto.js';
 
 @Injectable()
 export class MapsService {

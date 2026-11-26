@@ -1,19 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateReactionDto {
-  @ApiProperty({ description: 'The id of the event the reaction belongs to' })
-  @IsString()
-  @IsNotEmpty()
-  eventId: string;
+export const createReactionSchema = z.object({
+  eventId: z.string().min(1).describe('The id of the event the reaction belongs to'),
+  userId: z.string().min(1).describe('The id of the user that reacted to the event'),
+  validated: z.boolean().optional().default(false),
+});
 
-  @ApiProperty({ description: 'The id of the user that reacted to the event' })
-  @IsString()
-  @IsNotEmpty()
-  userId: string;
-
-  @ApiProperty({ required: false, default: false })
-  @IsOptional()
-  @IsBoolean()
-  validated?: boolean;
-}
+export type CreateReactionDto = z.infer<typeof createReactionSchema>;

@@ -1,16 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
+import { createCategorySchema } from './create-category.dto.js';
 
-export class UpdateCategoryDto {
-    @ApiProperty({ description: 'The name of the category' })
-    @IsOptional()
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+export const updateCategorySchema = createCategorySchema.partial();
 
-    @ApiProperty({ description: 'Category description' })
-    @IsOptional()
-    @IsString()
-    @IsNotEmpty()
-    description: string;
-}
+export type UpdateCategoryDto = z.infer<typeof updateCategorySchema>;

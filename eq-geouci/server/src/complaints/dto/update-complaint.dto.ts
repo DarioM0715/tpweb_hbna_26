@@ -1,22 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
+import { createComplaintSchema } from './create-complaint.dto.js';
 
-export class UpdateComplaintDto {
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  eventId?: string;
+export const updateComplaintSchema = createComplaintSchema.partial();
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  userId?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  reason?: string;
-}
+export type UpdateComplaintDto = z.infer<typeof updateComplaintSchema>;
