@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ReactionsService } from './reactions.service.js';
-import { CreateReactionDto } from './dto/create-reaction.dto.js';
-import { UpdateReactionDto } from './dto/update-reaction.dto.js';
+import { createReactionSchema, type CreateReactionDto } from './dto/create-reaction.dto.js';
+import { updateReactionSchema, type UpdateReactionDto } from './dto/update-reaction.dto.js';
 
 @Controller('reactions')
 export class ReactionsController {
   constructor(private readonly reactionsService: ReactionsService) {}
 
   @Post()
-  createReaction(@Body() createReactionDto: CreateReactionDto) {
+  createReaction(@Body({ schema: createReactionSchema }) createReactionDto: CreateReactionDto) {
     return this.reactionsService.create(createReactionDto);
   }
 
@@ -23,7 +23,7 @@ export class ReactionsController {
   }
 
   @Patch(':id')
-  updateReaction(@Param('id') id: string, @Body() updateReactionDto: UpdateReactionDto) {
+  updateReaction(@Param('id') id: string, @Body({ schema: updateReactionSchema }) updateReactionDto: UpdateReactionDto) {
     return this.reactionsService.update(id, updateReactionDto);
   }
 

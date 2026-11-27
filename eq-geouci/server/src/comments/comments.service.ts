@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { CreateCommentDto } from './dto/create-comment.dto.js';
-import { UpdateCommentDto } from './dto/update-comment.dto.js';
+import type { CreateCommentDto } from './dto/create-comment.dto.js';
+import type { UpdateCommentDto } from './dto/update-comment.dto.js';
 
 @Injectable()
 export class CommentsService {

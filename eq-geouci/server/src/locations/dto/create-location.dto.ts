@@ -1,36 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateLocationDto {
-  @ApiProperty({ description: 'The id of the map the location belongs to' })
-  @IsString()
-  @IsNotEmpty()
-  mapId: string;
+export const createLocationSchema = z.object({
+  mapId: z.string().trim().min(1).describe('The id of the map the location belongs to'),
+  categoryId: z.string().trim().min(1).describe('The id of the category of the location'),
+  name: z.string().trim().min(1).describe('The name of the location'),
+  description: z.string().trim().min(1).describe('The description of the location'),
+  latitude: z.number().describe('The latitude of the location'),
+  longitude: z.number().describe('The longitude of the location'),
+  its_official: z.boolean().describe('Indicates if the location is official'),
+});
 
-  @ApiProperty({ description: 'The id of the category of the location' })
-  @IsString()
-  @IsNotEmpty()
-  categoryId: string;
-
-  @ApiProperty({ description: 'The name of the location' })
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty({ description: 'The description of the location' })
-  @IsString()
-  @IsNotEmpty()
-  description: string;
-
-  @ApiProperty({ description: 'The latitude of the location' })
-  @IsNumber()
-  latitude: number;
-
-  @ApiProperty({ description: 'The longitude of the location' })
-  @IsNumber()
-  longitude: number;
-
-  @ApiProperty({ description: 'Indicates if the location is official' })
-  @IsBoolean()
-  its_official: boolean;
-}
+export type CreateLocationDto = z.infer<typeof createLocationSchema>;

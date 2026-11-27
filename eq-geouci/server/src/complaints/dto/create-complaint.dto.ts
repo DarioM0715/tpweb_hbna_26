@@ -1,19 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateComplaintDto {
-  @ApiProperty({ description: 'The id of the event the complaint belongs to' })
-  @IsString()
-  @IsNotEmpty()
-  eventId: string;
+export const createComplaintSchema = z.object({
+  eventId: z.string().trim().min(1).describe('The id of the event the complaint belongs to'),
+  userId: z.string().trim().min(1).describe('The id of the user that made the complaint'),
+  reason: z.string().trim().min(1).describe('The reason of the complaint'),
+});
 
-  @ApiProperty({ description: 'The id of the user that made the complaint' })
-  @IsString()
-  @IsNotEmpty()
-  userId: string;
-
-  @ApiProperty({ description: 'The reason of the complaint' })
-  @IsString()
-  @IsNotEmpty()
-  reason: string;
-}
+export type CreateComplaintDto = z.infer<typeof createComplaintSchema>;

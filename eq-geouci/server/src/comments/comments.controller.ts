@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CommentsService } from './comments.service.js';
-import { CreateCommentDto } from './dto/create-comment.dto.js';
-import { UpdateCommentDto } from './dto/update-comment.dto.js';
+import { createCommentSchema, type CreateCommentDto } from './dto/create-comment.dto.js';
+import { updateCommentSchema, type UpdateCommentDto } from './dto/update-comment.dto.js';
 
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  createComment(@Body() createCommentDto: CreateCommentDto) {
+  createComment(@Body({ schema: createCommentSchema }) createCommentDto: CreateCommentDto) {
     return this.commentsService.create(createCommentDto);
   }
 
@@ -23,7 +23,7 @@ export class CommentsController {
   }
 
   @Patch(':id')
-  updateComment(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
+  updateComment(@Param('id') id: string, @Body({ schema: updateCommentSchema }) updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(id, updateCommentDto);
   }
 

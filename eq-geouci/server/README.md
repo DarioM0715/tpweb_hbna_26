@@ -7,9 +7,10 @@ API REST del proyecto, construida con **NestJS 12 + TypeScript (ESM)**, **Prisma
 - Modelos del schema de Prisma: `User`, `Category`, `Map`, `Location`, `LocationRequest`, `Event`, `Comment`, `Reaction` y `Complaint`.
 - CRUD REST completo para los 9 modelos: `users`, `categories`, `maps`, `locations`, `locations-request`, `events`, `comments`, `reactions` y `complaints`.
 - Cada recurso expone `POST /recurso`, `GET /recurso`, `GET /recurso/:id`, `PATCH /recurso/:id` y `DELETE /recurso/:id`. Los IDs son UUID.
-- Cada módulo sigue la misma estructura: controlador, servicio con `PrismaService`, DTOs de creación/actualización con `class-validator` y `@ApiProperty`, entidad y pruebas unitarias.
+- Cada módulo sigue la misma estructura: controlador, servicio con `PrismaService`, esquemas Zod de creación/actualización con sus tipos inferidos, entidad y pruebas unitarias.
+- La validación de las peticiones usa `StandardSchemaValidationPipe` de forma global con `@Body({ schema })` en los controladores; Swagger genera los esquemas a partir de Zod.
 - `PrismaService` está registrado como proveedor global (`src/prisma`) y usa `@prisma/adapter-pg`. Las migraciones están en `prisma/migrations`.
-- Pendiente: autenticación/autorización, pipe global de validación y pruebas e2e de los endpoints.
+- Pendiente: autenticación/autorización y pruebas e2e de los endpoints.
 
 ## Instalación
 

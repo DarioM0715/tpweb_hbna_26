@@ -1,48 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateEventDto {
-  @ApiProperty({ description: 'The name of the event' })
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+export const createEventSchema = z.object({
+  name: z.string().trim().min(1).describe('The name of the event'),
+  description: z.string().optional().describe('The description of the event'),
+  start_date: z.coerce.date().describe('The start date of the event'),
+  end_date: z.coerce.date().describe('The end date of the event'),
+  its_official: z.boolean().describe('Indicates if the event is official'),
+  outstanding: z.boolean().describe('Indicates if the event is outstanding'),
+  mapId: z.string().trim().min(1).describe('The id of the map where the event takes place'),
+  categoryId: z.string().trim().min(1).describe('The id of the category of the event'),
+  organizerId: z.string().trim().min(1).describe('The id of the user organizing the event'),
+});
 
-  @ApiProperty({ required: false, description: 'The description of the event' })
-  @IsString()
-  @IsOptional()
-  description?: string;
-
-  @ApiProperty({ description: 'The start date of the event' })
-  @Type(() => Date)
-  @IsDate()
-  start_date: Date | string;
-
-  @ApiProperty({ description: 'The end date of the event' })
-  @Type(() => Date)
-  @IsDate()
-  end_date: Date | string;
-
-  @ApiProperty({ description: 'Indicates if the event is official' })
-  @IsBoolean()
-  its_official: boolean;
-
-  @ApiProperty({ description: 'Indicates if the event is outstanding' })
-  @IsBoolean()
-  outstanding: boolean;
-
-  @ApiProperty({ description: 'The id of the map where the event takes place' })
-  @IsString()
-  @IsNotEmpty()
-  mapId: string;
-
-  @ApiProperty({ description: 'The id of the category of the event' })
-  @IsString()
-  @IsNotEmpty()
-  categoryId: string;
-
-  @ApiProperty({ description: 'The id of the user organizing the event' })
-  @IsString()
-  @IsNotEmpty()
-  organizerId: string;
-}
+export type CreateEventDto = z.infer<typeof createEventSchema>;

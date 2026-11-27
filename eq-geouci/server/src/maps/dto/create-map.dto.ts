@@ -1,25 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateMapDto {
-  @ApiProperty({ description: 'The name of the map' })
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+export const createMapSchema = z.object({
+  name: z.string().trim().min(1).describe('The name of the map'),
+  lat_min: z.number().describe('The minimum latitude of the map'),
+  lat_max: z.number().describe('The maximum latitude of the map'),
+  lon_min: z.number().describe('The minimum longitude of the map'),
+  lon_max: z.number().describe('The maximum longitude of the map'),
+});
 
-  @ApiProperty({ description: 'The minimum latitude of the map' })
-  @IsNumber()
-  lat_min: number;
-
-  @ApiProperty({ description: 'The maximum latitude of the map' })
-  @IsNumber()
-  lat_max: number;
-
-  @ApiProperty({ description: 'The minimum longitude of the map' })
-  @IsNumber()
-  lon_min: number;
-
-  @ApiProperty({ description: 'The maximum longitude of the map' })
-  @IsNumber()
-  lon_max: number;
-}
+export type CreateMapDto = z.infer<typeof createMapSchema>;

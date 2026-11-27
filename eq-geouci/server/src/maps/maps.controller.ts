@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MapsService } from './maps.service.js';
-import { CreateMapDto } from './dto/create-map.dto.js';
-import { UpdateMapDto } from './dto/update-map.dto.js';
+import { createMapSchema, type CreateMapDto } from './dto/create-map.dto.js';
+import { updateMapSchema, type UpdateMapDto } from './dto/update-map.dto.js';
 
 @Controller('maps')
 export class MapsController {
   constructor(private readonly mapsService: MapsService) {}
 
   @Post()
-  createMap(@Body() createMapDto: CreateMapDto) {
+  createMap(@Body({ schema: createMapSchema }) createMapDto: CreateMapDto) {
     return this.mapsService.create(createMapDto);
   }
 
@@ -23,7 +23,7 @@ export class MapsController {
   }
 
   @Patch(':id')
-  updateMap(@Param('id') id: string, @Body() updateMapDto: UpdateMapDto) {
+  updateMap(@Param('id') id: string, @Body({ schema: updateMapSchema }) updateMapDto: UpdateMapDto) {
     return this.mapsService.update(id, updateMapDto);
   }
 

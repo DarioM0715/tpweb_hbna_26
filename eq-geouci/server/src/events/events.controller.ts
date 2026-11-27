@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EventsService } from './events.service.js';
-import { CreateEventDto } from './dto/create-event.dto.js';
-import { UpdateEventDto } from './dto/update-event.dto.js';
+import { createEventSchema, type CreateEventDto } from './dto/create-event.dto.js';
+import { updateEventSchema, type UpdateEventDto } from './dto/update-event.dto.js';
 
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
-  createEvent(@Body() createEventDto: CreateEventDto) {
+  createEvent(@Body({ schema: createEventSchema }) createEventDto: CreateEventDto) {
     return this.eventsService.create(createEventDto);
   }
 
@@ -23,7 +23,7 @@ export class EventsController {
   }
 
   @Patch(':id')
-  updateEvent(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
+  updateEvent(@Param('id') id: string, @Body({ schema: updateEventSchema }) updateEventDto: UpdateEventDto) {
     return this.eventsService.update(id, updateEventDto);
   }
 

@@ -1,30 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
+import { createMapSchema } from './create-map.dto.js';
 
-export class UpdateMapDto {
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  name?: string;
+export const updateMapSchema = createMapSchema.partial();
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  lat_min?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  lat_max?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  lon_min?: number;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  lon_max?: number;
-}
+export type UpdateMapDto = z.infer<typeof updateMapSchema>;
