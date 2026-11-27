@@ -6,11 +6,23 @@ API REST del proyecto, construida con **NestJS 12 + TypeScript (ESM)**, **Prisma
 
 - Modelos del schema de Prisma: `User`, `Category`, `Map`, `Location`, `LocationRequest`, `Event`, `Comment`, `Reaction` y `Complaint`.
 - CRUD REST completo para los 9 modelos: `users`, `categories`, `maps`, `locations`, `locations-request`, `events`, `comments`, `reactions` y `complaints`.
-- Cada recurso expone `POST /recurso`, `GET /recurso`, `GET /recurso/:id`, `PATCH /recurso/:id` y `DELETE /recurso/:id`. Los IDs son UUID.
+- Cada recurso expone `POST /recurso`, `GET /recurso`, `GET /recurso/:id`, `PATCH /recurso/:id` y `DELETE /recurso/:id`. Los IDs son UUID. Los listados (`GET /recurso`) son paginados; ver [Paginación](#paginación).
 - Cada módulo sigue la misma estructura: controlador, servicio con `PrismaService`, esquemas Zod de creación/actualización con sus tipos inferidos, entidad y pruebas unitarias.
 - La validación de las peticiones usa `StandardSchemaValidationPipe` de forma global con `@Body({ schema })` en los controladores; Swagger genera los esquemas a partir de Zod (`src/swagger.ts` documenta los `Date` como `date-time`).
 - `PrismaService` está registrado como proveedor global (`src/prisma`) y usa `@prisma/adapter-pg`. Las migraciones están en `prisma/migrations`.
 - Pendiente: autenticación/autorización y pruebas e2e de los endpoints.
+
+## Paginación
+
+Todos los `GET /recurso` aceptan estos parámetros de query, validados con `paginationQuerySchema` (Zod):
+
+| Parámetro | Tipo | Valor por defecto | Descripción |
+| --- | --- | --- | --- |
+| `page` | entero >= 1 | `1` | Página solicitada. |
+| `limit` | entero entre 1 y 100 | `20` | Elementos por página. |
+| `sort` | cadena | campo por defecto del recurso | Campo de ordenación; solo se permiten campos del modelo. |
+| `order` | `asc` \| `desc` | `asc` | Dirección de la ordenación. |
+| `search` | cadena | — | Búsqueda por texto (se recorta). En `reactions` debe ser el UUID de una reacción, un evento o un usuario. |
 
 ## Instalación
 
