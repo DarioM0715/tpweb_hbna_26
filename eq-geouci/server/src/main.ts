@@ -2,6 +2,7 @@ import { StandardSchemaValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule, ObserveInstrument } from './app.module.js';
+import { swaggerDocumentOptions } from './swagger.js';
 import 'dotenv/config';
 
 async function bootstrap() {
@@ -16,7 +17,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('cats')
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, config, swaggerDocumentOptions);
   SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
