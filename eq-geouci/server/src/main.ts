@@ -15,7 +15,6 @@ async function bootstrap() {
     .setTitle('Geouci API')
     .setDescription('Swager para la api de Geouci')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const documentFactory = () =>
     SwaggerModule.createDocument(app, config, swaggerDocumentOptions);

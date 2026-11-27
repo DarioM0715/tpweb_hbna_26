@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ReactionsService } from './reactions.service.js';
 import { createReactionSchema, type CreateReactionDto } from './dto/create-reaction.dto.js';
 import { updateReactionSchema, type UpdateReactionDto } from './dto/update-reaction.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('reactions')
 export class ReactionsController {
@@ -13,8 +14,8 @@ export class ReactionsController {
   }
 
   @Get()
-  getAllReactions() {
-    return this.reactionsService.findAll();
+  getAllReactions(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.reactionsService.findAll(query);
   }
 
   @Get(':id')

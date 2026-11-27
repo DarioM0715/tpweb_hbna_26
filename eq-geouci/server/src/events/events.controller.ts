@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { EventsService } from './events.service.js';
 import { createEventSchema, type CreateEventDto } from './dto/create-event.dto.js';
 import { updateEventSchema, type UpdateEventDto } from './dto/update-event.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('events')
 export class EventsController {
@@ -13,8 +14,8 @@ export class EventsController {
   }
 
   @Get()
-  getAllEvents() {
-    return this.eventsService.findAll();
+  getAllEvents(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.eventsService.findAll(query);
   }
 
   @Get(':id')

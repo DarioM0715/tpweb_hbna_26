@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CommentsService } from './comments.service.js';
 import { createCommentSchema, type CreateCommentDto } from './dto/create-comment.dto.js';
 import { updateCommentSchema, type UpdateCommentDto } from './dto/update-comment.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('comments')
 export class CommentsController {
@@ -13,8 +14,8 @@ export class CommentsController {
   }
 
   @Get()
-  getAllComments() {
-    return this.commentsService.findAll();
+  getAllComments(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.commentsService.findAll(query);
   }
 
   @Get(':id')

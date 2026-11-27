@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ComplaintsService } from './complaints.service.js';
 import { createComplaintSchema, type CreateComplaintDto } from './dto/create-complaint.dto.js';
 import { updateComplaintSchema, type UpdateComplaintDto } from './dto/update-complaint.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('complaints')
 export class ComplaintsController {
@@ -13,8 +14,8 @@ export class ComplaintsController {
   }
 
   @Get()
-  getAllComplaints() {
-    return this.complaintsService.findAll();
+  getAllComplaints(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.complaintsService.findAll(query);
   }
 
   @Get(':id')

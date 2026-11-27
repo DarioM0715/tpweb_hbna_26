@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { LocationsRequestService } from './locations-request.service.js';
 import { createLocationsRequestSchema, type CreateLocationsRequestDto } from './dto/create-locations-request.dto.js';
 import { updateLocationsRequestSchema, type UpdateLocationsRequestDto } from './dto/update-locations-request.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('locations-request')
 export class LocationsRequestController {
@@ -13,8 +14,8 @@ export class LocationsRequestController {
   }
 
   @Get()
-  getAllLocationRequests() {
-    return this.locationsRequestService.findAll();
+  getAllLocationRequests(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.locationsRequestService.findAll(query);
   }
 
   @Get(':id')

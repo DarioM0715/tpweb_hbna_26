@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { MapsService } from './maps.service.js';
 import { createMapSchema, type CreateMapDto } from './dto/create-map.dto.js';
 import { updateMapSchema, type UpdateMapDto } from './dto/update-map.dto.js';
+import { paginationQuerySchema, type PaginationQueryDto } from '../common/dto/pagination.dto.js';
 
 @Controller('maps')
 export class MapsController {
@@ -13,8 +14,8 @@ export class MapsController {
   }
 
   @Get()
-  getAllMaps() {
-    return this.mapsService.findAll();
+  getAllMaps(@Query({ schema: paginationQuerySchema }) query: PaginationQueryDto) {
+    return this.mapsService.findAll(query);
   }
 
   @Get(':id')
